@@ -1,3 +1,5 @@
+# Create data frame for each team
+
 hirsh_projected <- c(95.7, 92.7, 89.6, 89.7, 82.5, 94.1, 96.1, 94.4, 91.1, 81.8)
 hirsh_actual <- c(112.9, 104.2, 66.3, 68.7, 82, 94.8, 109.4, 97.6, 102.8, 117.7)
 hirsh <- list(hirsh_actual, hirsh_projected)
@@ -68,9 +70,10 @@ varun <- as.data.frame(varun, row.names = c("Week 1", "Week 2", "Week 3", "Week 
                                             "Week 6", "Week 7", "Week 8", "Week 9", "Week 10"))
 colnames(varun) <- c("actual", "projected")
 
+
+# Plot 
 library(ggplot2)
 library(gridExtra)
-#geom_smooth(method = "lm", formula = y~x, se = FALSE)
 a <- ggplot(hirsh, aes(x=projected, y=actual)) +
   geom_point() + stat_smooth(method = "lm", se = FALSE, fullrange = TRUE) +
   xlim(70,110) + ylim(40,145) +
@@ -123,7 +126,7 @@ j <- ggplot(varun, aes(x=projected, y=actual)) +
 
 grid.arrange(a,b,c,d,e,f,g,h,i,j, nrow = 2)
 
-
+# Create plot for total league actual vs projected scores
 projected <- c(hirsh_projected, ayaz_projected, harsh_projected, akshat_projected, charles_projected,
                sharan_projected, vikram_projected, faizan_projected, nick_projected, varun_projected)
 
@@ -146,8 +149,8 @@ ggplot(total, aes(x=projected, y=actual)) +
   theme(plot.title = element_text(size=18))
   
 
-#power rankings
-#hirsh, ayaz, harsh, akshat, charles, sharan, vik, faiz, nick, vv
+# Power rankings
+# hirsh, ayaz, harsh, akshat, charles, sharan, vik, faiz, nick, vv
 week1 <- c(6,3,1,2,8,7,5,10,4,9)
 week2 <- c(3,2,1,4,9,10,5,8,6,7)
 week3 <- c(5,2,1,3,9,10,8,6,7,4)
@@ -168,8 +171,7 @@ powerranks$avg <- round((powerranks$week1 + powerranks$week2 + powerranks$week3 
 powerranks$team <- c("Hirsh", "Ayaz", "Harsh", "Akshat", "Charles", "Sharan", "Vikram", "Faizan", 
                           "Nick", "Varun")
 
-powerranks
-powerranks <- powerranks[c(13,1,2,3,4,5,6,7,8,9,10,11,12)] #change every week
+powerranks <- powerranks[c(13,1,2,3,4,5,6,7,8,9,10,11,12)] #change order every week to put most recent week at the end
 powerranks <- powerranks[order(powerranks$avg),]
 row.names(powerranks) <- 1:nrow(powerranks)
 powerranks
@@ -179,6 +181,7 @@ a <- melt(powerranks, id.vars="team",
           measure.vars = grep("^week",names(powerranks),value=TRUE))
 a
 
+# Plot power ranking
 library(ggplot2)
 ggplot(a, aes(x=variable, y=value,color=team)) +
   geom_point() +
@@ -191,7 +194,7 @@ ggplot(a, aes(x=variable, y=value,color=team)) +
   theme(axis.title.x = element_blank()) +
   scale_x_discrete(labels=c("week1"="Week 1", "week2"="Week 2", "week3"="Week 3", "week4"="Week 4",
                             "week5"="Week 5", "week6"="Week 6", "week7"="Week 7", "week8"="Week 8",
-                            "week9"="Week 9", "week10"="Week 10", "week11"="Week 11")) + #add week
+                            "week9"="Week 9", "week10"="Week 10", "week11"="Week 11")) #add week
   theme(panel.grid.minor = element_blank()) +
   theme(axis.text = element_text(size=12)) +
   theme(plot.title = element_text(size=18, face="bold",hjust = 0.5)) +
