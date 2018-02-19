@@ -1,6 +1,6 @@
 ffrankings <- read.csv('cool league.csv')
 
-# Dselete unnecessary columns
+# Delete unnecessary columns
 ffrankings$playerId <- NULL
 ffrankings$age <- NULL
 ffrankings$exp <- NULL
